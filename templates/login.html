@@ -2,7 +2,12 @@
 <div class="container mt-4">
   <h1>Faça seu login</h1>
   <form method="POST" action="{{ url_for('auth') }}">
-    <input type="hidden" id="next_page" name="next_page" value="{{ next_page }}">
+    <input
+      type="hidden"
+      id="next_page"
+      name="next_page"
+      value="{{ next_page }}"
+    />
     <p>
       <label>Nome de usuário:</label>
       <input class="form-control" type="text" id="user" name="user" required />
