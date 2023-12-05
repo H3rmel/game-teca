@@ -2,22 +2,55 @@
 
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 
-from models.game import Game
-from models.user import User
+from flask_sqlalchemy import SQLAlchemy
 
 from utils.check_session import check_session_and_render
 
 # endregion
 
-# App Instance
+# region App Instance
+
 app = Flask(__name__)
 app.secret_key = 'alura'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    '{SGBD}://{user}:{password}@{host}/{db}'.format(
+        SGBD = 'mysql+mysqlconnector',
+        user = 'wsl_root',
+        password = 'capreo9709',
+        host = '127.0.0.1',
+        db = 'gameteca'
+    )
+
+db = SQLAlchemy(app)
+
+class Games(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50), nullable=False)
+    category = db.Column(db.String(40), nullable=False)
+    platform = db.Column(db.String(20), nullable=False)
+
+    def __repr__(self):
+        return '<Name %s>' % self.name
+
+class Users(db.Model):
+    name = db.Column(db.String(50), primary_key=True)
+    nickname = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
+
+
+# endregion
 
 # region Views
 
 
 @app.route('/')
 def home():
+    gamesList = Games.query.order_by(Games.id)
+
     return check_session_and_render('home', 'list.html', title='Jogos', games=gamesList)
 
 
@@ -44,8 +77,17 @@ def create():
         category = request.form['category']
         platform = request.form['platform']
 
-        new_game = Game(name, category, platform)
-        gamesList.append(new_game)
+        game = Games.query.filter_by(name=name).first()
+
+        if game:
+            flash('Este jogo já existe!')
+
+            return redirect(url_for('home'))
+        
+        new_game = Games(name=name, category=category, platform=platform)
+
+        db.session.add(new_game)
+        db.session.commit()
 
         return redirect(url_for('home'))
     else:
@@ -54,18 +96,18 @@ def create():
 
 @app.route('/auth', methods=["POST"])
 def auth():
-    if request.method == "POST":
-        if request.form['user'] in users:
-            user = users[request.form['user']]
+    user = Users.query.filter_by(nickname = request.form['user']).first()
 
+    if request.method == "POST":
+        if user:
             if request.form['password'] == user.password:
                 session['user_is_logged'] = user.nickname
 
                 flash(user.nickname + ' logado com sucesso!')
-
+                
                 next_page = request.form['next_page']
 
-                if next_page == 'None':
+                if next_page != 'None':
                     return redirect(next_page)
                 else:
                     return redirect(url_for('home'))
@@ -74,11 +116,11 @@ def auth():
 
                 return redirect(url_for('login'))
         else:
-            flash('Senha inválida!')
+            flash('Usuário inválido')
 
             return redirect(url_for('login'))
     else:
-        return render_template("error.html")
+        render_template('error.html')
 
 
 @app.route('/logout')

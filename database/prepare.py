@@ -3,9 +3,6 @@
 import mysql.connector
 from mysql.connector import errorcode
 
-from models.user import User
-from models.game import Game
-
 # endregion
 
 # region Connection
@@ -33,7 +30,7 @@ cursor = connection.cursor()
 # Some commands to make sure of the integrity of the database
 cursor.execute("DROP DATABASE IF EXISTS gameteca;")
 cursor.execute("CREATE DATABASE gameteca;")
-cursor.execute("USE gameteca")
+cursor.execute("USE gameteca;")
 
 # endregion
 
@@ -55,7 +52,7 @@ TABLES['Games'] = ('''
 TABLES['Users'] = ('''
     CREATE TABLE `gameteca`.`users` (      
       `name` VARCHAR(50) NOT NULL,
-      `nickname` VARCHAR(10) NOT NULL,
+      `nickname` VARCHAR(20) NOT NULL,
       `password` VARCHAR(100) NOT NULL,
       PRIMARY KEY (`nickname`))
     ENGINE = InnoDB
@@ -81,9 +78,10 @@ for table_name in TABLES:
 
 user_sql = 'INSERT INTO users (name, nickname, password) values (%s, %s, %s)'
 
-users = {
-    'isaachermel': User('isaachermel', 'lovelace', '12345678'),
-}
+# Confer models/user.py
+users = [
+    ('isaachermel', 'lovelace', '12345678'),
+]
 
 cursor.executemany(user_sql, users)
 
@@ -99,15 +97,16 @@ for user in cursor.fetchall():
 
 game_sql = 'INSERT INTO games (name, category, platform) values (%s, %s, %s)'
 
+# Confer models/game.py
 games = [
-    Game('Tetris', 'Puzzle', 'Atari'),
-    Game('Sonic Frontiers', 'Aventura', 'Diversos'),
-    Game('Devil May Cry 5', 'Hack n Slash', 'Diversos')
+    ('Tetris', 'Puzzle', 'Atari'),
+    ('Sonic Frontiers', 'Aventura', 'Diversos'),
+    ('Devil May Cry 5', 'Hack n Slash', 'Diversos')
 ]
 
 cursor.executemany(game_sql, games)
 
-cursor.execute('select * from jogoteca.jogos')
+cursor.execute('select * from gameteca.games')
 print('---------------- Jogos ----------------')
 for game in cursor.fetchall():
     print(game[1])
