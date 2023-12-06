@@ -9,7 +9,6 @@ from models.users import Users
 
 # endregion
 
-
 @app.route('/create', methods=["POST"])
 def create():
     if request.method == "POST":
@@ -24,14 +23,19 @@ def create():
 
             return redirect(url_for('home'))
 
-        new_game = Games(name=name, category=category, platform=platform)
+        new = Games(name=name, category=category, platform=platform)
 
-        db.session.add(new_game)
+        db.session.add(new)
         db.session.commit()
 
         return redirect(url_for('home'))
     else:
         return render_template("error.html")
+    
+
+@app.route('/update', methods=["POST"])
+def update():
+    pass
 
 
 @app.route('/auth', methods=["POST"])

@@ -18,9 +18,16 @@ def home():
     return check_session_and_render('home', 'list.html', title='Jogos', games=gamesList)
 
 
-@app.route('/new_game')
-def new_game():
-    return check_session_and_render('new_game', 'new.html', title='Novo jogo')
+@app.route('/new')
+def new():
+    return check_session_and_render('new', 'new.html', title='Novo jogo')
+
+
+@app.route('/edit/<int:id>')
+def edit(id):
+    gameToEdit = Games.query.filter_by(id=id).first()
+
+    return check_session_and_render('edit', 'edit.html', title='Editando jogo', game=gameToEdit)
 
 
 @app.route('/login')

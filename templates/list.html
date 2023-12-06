@@ -5,6 +5,7 @@
       <th>Nome</th>
       <th>Categoria</th>
       <th>Plataforma</th>
+      <th>Opções</th>
     </tr>
   </thead>
   <tbody>
@@ -13,12 +14,15 @@
       <td>{{ game.name }}</td>
       <td>{{ game.category }}</td>
       <td>{{ game.platform }}</td>
+      <td>
+        <a href="{{ url_for('edit', id=game.id) }}">Editar</a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 <div class="d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('new_game') }}" class="btn btn-primary">
+  <a href="{{ url_for('new') }}" class="btn btn-primary">
     Adicionar jogo
   </a>
   <a href="{{ url_for('logout') }}" class="btn btn-outline-danger"> Sair </a>
