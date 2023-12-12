@@ -17,6 +17,9 @@
       <td>
         <a href="{{ url_for('edit', id=game.id) }}">Editar</a>
       </td>
+      <td>
+        <a href="{{ url_for('delete', id=game.id) }}">Remover</a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>

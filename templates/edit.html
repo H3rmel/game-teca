@@ -1,6 +1,7 @@
 {% extends "template.html" %} {% block content %}
 <form method="post" action="{{ url_for('update') }}">
   <fieldset>
+    <input type="hidden" name="id" value="{{ game.id }}">
     <div class="form-group">
       <label for="name">Nome</label>
       <input type="text" value="{{ game.name }}" id="name" name="name" class="form-control" />

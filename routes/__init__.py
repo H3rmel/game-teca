@@ -35,7 +35,32 @@ def create():
 
 @app.route('/update', methods=["POST"])
 def update():
-    pass
+    if request.method == "POST":
+        gameToUpdate = Games.query.filter_by(id=request.form['id']).first()
+
+        gameToUpdate.name = request.form['name']
+        gameToUpdate.category = request.form['category']
+        gameToUpdate.platform = request.form['platform']
+
+        db.session.add(gameToUpdate)
+        db.session.commit()
+
+        return redirect(url_for('home'))
+    else:
+        return render_template("error.html")
+    
+@app.route('/delete/<int:id>', methods=["POST"])
+def delete(id):
+    if 'user_is_logged' not in session or session['user_is_logged'] == None:
+        return redirect(url_for('login'))
+    
+    Games.query.filter_by(id=id).delete()
+
+    db.session.commit()
+
+    flash('Jogo removido com sucesso!')
+
+    return redirect(url_for('home'))
 
 
 @app.route('/auth', methods=["POST"])
