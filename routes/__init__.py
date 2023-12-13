@@ -51,16 +51,19 @@ def update():
     
 @app.route('/delete/<int:id>', methods=["POST"])
 def delete(id):
-    if 'user_is_logged' not in session or session['user_is_logged'] == None:
-        return redirect(url_for('login'))
-    
-    Games.query.filter_by(id=id).delete()
+    if request.method == "POST":
+        if 'user_is_logged' not in session or session['user_is_logged'] == None:
+            return redirect(url_for('login'))
+        
+        Games.query.filter_by(id=id).delete()
 
-    db.session.commit()
+        db.session.commit()
 
-    flash('Jogo removido com sucesso!')
+        flash('Jogo removido com sucesso!')
 
-    return redirect(url_for('home'))
+        return redirect(url_for('home'))
+    else:
+        return render_template("error.html")
 
 
 @app.route('/auth', methods=["POST"])

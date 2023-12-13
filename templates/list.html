@@ -15,10 +15,12 @@
       <td>{{ game.category }}</td>
       <td>{{ game.platform }}</td>
       <td>
-        <a href="{{ url_for('edit', id=game.id) }}">Editar</a>
+        <a class="btn btn-link p-0" href="{{ url_for('edit', id=game.id) }}">Editar</a>
       </td>
       <td>
-        <a href="{{ url_for('delete', id=game.id) }}">Remover</a>
+        <form method="post" action="{{ url_for('delete', id=game.id) }}">
+          <button type="submit" class="btn btn-link p-0">Remover</button>
+        </form>
       </td>
     </tr>
     {% endfor %}
