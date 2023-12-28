@@ -104,7 +104,7 @@ def auth():
 
 @app.route('/content/<name_archive>')
 def image(name_archive):
-   return send_from_directory(app.static_folder, 'content/' + name_archive, as_attachment=True)
+   return send_from_directory(app.static_folder, 'content/' + name_archive, as_attachment=True                  )
 
 
 @app.route('/logout')
