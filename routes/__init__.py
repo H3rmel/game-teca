@@ -2,12 +2,13 @@
 
 from gameteca import app, db
 
-from flask import render_template, redirect, request, flash, url_for, session
+from flask import render_template, redirect, request, flash, url_for, session, send_from_directory
 
 from models.games import Games
 from models.users import Users
 
 # endregion
+
 
 @app.route('/create', methods=["POST"])
 def create():
@@ -23,38 +24,44 @@ def create():
 
             return redirect(url_for('home'))
 
-        new = Games(name=name, category=category, platform=platform)
+        new_game = Games(name=name, category=category, platform=platform)
 
-        db.session.add(new)
+        db.session.add(new_game)
         db.session.commit()
+
+        upload_path = app.config['UPLOAD_PATH']
+
+        archive = request.files['archive']
+        archive.save(f'{upload_path}/thumbnail{new_game.id}.jpg')
 
         return redirect(url_for('home'))
     else:
         return render_template("error.html")
-    
+
 
 @app.route('/update', methods=["POST"])
 def update():
     if request.method == "POST":
-        gameToUpdate = Games.query.filter_by(id=request.form['id']).first()
+        game_to_update = Games.query.filter_by(id=request.form['id']).first()
 
-        gameToUpdate.name = request.form['name']
-        gameToUpdate.category = request.form['category']
-        gameToUpdate.platform = request.form['platform']
+        game_to_update.name = request.form['name']
+        game_to_update.category = request.form['category']
+        game_to_update.platform = request.form['platform']
 
-        db.session.add(gameToUpdate)
+        db.session.add(game_to_update)
         db.session.commit()
 
         return redirect(url_for('home'))
     else:
         return render_template("error.html")
-    
+
+
 @app.route('/delete/<int:id>', methods=["POST"])
 def delete(id):
     if request.method == "POST":
         if 'user_is_logged' not in session or session['user_is_logged'] == None:
             return redirect(url_for('login'))
-        
+
         Games.query.filter_by(id=id).delete()
 
         db.session.commit()
@@ -93,6 +100,11 @@ def auth():
             return redirect(url_for('login'))
     else:
         render_template('error.html')
+
+
+@app.route('/content/<name_archive>')
+def image(name_archive):
+   return send_from_directory(app.static_folder, 'content/' + name_archive, as_attachment=True)
 
 
 @app.route('/logout')

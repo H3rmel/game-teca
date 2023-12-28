@@ -1,5 +1,27 @@
 {% extends "template.html" %} {% block content %}
-<form method="post" action="{{ url_for('create') }}">
+<form
+  method="post"
+  action="{{ url_for('create') }}"
+  enctype="multipart/form-data"
+>
+  <figure class="img-thumbnail col-md-6">
+    <img
+      class="img-fluid"
+      src="{{ url_for('image', name_archive='default_thumbnail.jpg') }}"
+    />
+    <figcaption>
+      <div class="form-group">
+        <label> Mudar capa </label>
+        <input
+          type="file"
+          accept=".jpg"
+          id="archive"
+          name="archive"
+          class="form-control"
+        />
+      </div>
+    </figcaption>
+  </figure>
   <fieldset>
     <div class="form-group">
       <label for="name">Nome</label>

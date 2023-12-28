@@ -13,9 +13,9 @@ from utils.check_session import check_session_and_render
 
 @app.route('/')
 def home():
-    gamesList = Games.query.order_by(Games.id)
+    games_list = Games.query.order_by(Games.id)
 
-    return check_session_and_render('home', 'list.html', title='Jogos', games=gamesList)
+    return check_session_and_render('home', 'list.html', title='Jogos', games=games_list)
 
 
 @app.route('/new')
@@ -25,9 +25,9 @@ def new():
 
 @app.route('/edit/<int:id>')
 def edit(id):
-    gameToEdit = Games.query.filter_by(id=id).first()
+    game_to_edit = Games.query.filter_by(id=id).first()
 
-    return check_session_and_render('edit', 'edit.html', title='Editando jogo', game=gameToEdit)
+    return check_session_and_render('edit', 'edit.html', title='Editando jogo', game=game_to_edit)
 
 
 @app.route('/login')

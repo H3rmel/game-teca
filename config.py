@@ -1,3 +1,5 @@
+import os
+
 SECRET_KEY = 'alura'
 
 SQLALCHEMY_DATABASE_URI = \
@@ -8,3 +10,5 @@ SQLALCHEMY_DATABASE_URI = \
         host = '127.0.0.1',
         db = 'gameteca'
     )
+
+UPLOAD_PATH = os.path.dirname(os.path.realpath(__file__)) + '/content'
