@@ -1,23 +1,33 @@
 {% extends "template.html" %} {% block content %}
 <form method="post" action="{{ url_for('update') }}">
+  <figure class="img-thumbnail col-md-4">
+    <img class="img-fluid" src="{{ url_for('image', name_archive=game_cover) }}">
+    <figcaption>
+      <label class="fileContainer">
+        Mudar Capa
+        <input type="file" name="archive" id="archive" accept=".jpg">
+      </label>
+    </figcaption>
+  </figure>
   <fieldset>
-    <input type="hidden" name="id" value="{{ game.id }}">
+    <input type="hidden" name="id" value="{{ id }}">
+    {{ form.csrf_token() }}
     <div class="form-group">
-      <label for="name">Nome</label>
-      <input type="text" value="{{ game.name }}" id="name" name="name" class="form-control" />
+      {{ form.name.label(class="form-label") }}
+      {{ form.name(class="form-control") }}
     </div>
     <div class="form-group">
-      <label for="category">Categoria</label>
-      <input type="text" value="{{ game.category }}" id="category" name="category" class="form-control" />
+      {{ form.name.category(class="form-label") }}
+      {{ form.category(class="form-control") }}
     </div>
     <div class="form-group mb-2">
-      <label for="platform">Plataforma</label>
-      <input type="text" value="{{ game.platform }}" id="platform" name="platform" class="form-control" />
+      {{ form.name.platform(class="form-label") }}
+      {{ form.platform(class="form-control") }}
     </div>
-    <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
-    <a href="{{ url_for('home') }}" class="btn btn-outline-primary float-end"
-      >Voltar</a
-    >
+    <div class="form-group">
+      {{ form.save(class="btn btn-primary") }}
+      <a href="{{ url_for('home') }}" class="btn btn-outline-primary float-end">Voltar</a>
+    </div>
   </fieldset>
 </form>
 {% endblock %}

@@ -12,8 +12,8 @@ print('Conectando...')
 try:
     connection = mysql.connector.connect(
         host='127.0.0.1',
-        user='wsl_root',
-        password='capreo9709'
+        user='gameteca',
+        password='12345678'
     )
 
 except mysql.connector.Error as err:
@@ -21,9 +21,6 @@ except mysql.connector.Error as err:
         print('Existe algo de errado com o usuário e senha.')
     else:
         print(err)
-
-else:
-    print('Conectado')
 
 cursor = connection.cursor()
 
