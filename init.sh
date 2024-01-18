@@ -1,1 +1,0 @@
-# Script to do all the configs necessary to run the project
