@@ -7,3 +7,8 @@ class GameForm(FlaskForm):
     platform = StringField('Plataforma do jogo', [validators.DataRequired(), validators.Length(min=1, max=20)])
     save = SubmitField('Salvar')
     
+
+class UserForm(FlaskForm):
+    nickname = StringField('Nickname', validators=[validators.DataRequired(), validators.Length(min=1, max=20)])
+    password =  StringField('Senha', validators=[validators.DataRequired(), validators.Length(min=1, max=100)])
+    save = SubmitField('Login')

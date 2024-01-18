@@ -1,7 +1,10 @@
 # region Imports
 
 import mysql.connector
+
 from mysql.connector import errorcode
+
+from flask_bcrypt import generate_password_hash
 
 # endregion
 
@@ -77,7 +80,7 @@ user_sql = 'INSERT INTO users (name, nickname, password) values (%s, %s, %s)'
 
 # Confer models/user.py
 users = [
-    ('isaachermel', 'lovelace', '12345678'),
+    ('isaachermel', 'lovelace', generate_password_hash('12345678').decode('utf-8')),
 ]
 
 cursor.executemany(user_sql, users)
