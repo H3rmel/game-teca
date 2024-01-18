@@ -10,12 +10,14 @@ Para rodar é simples, clone o repositório e faça os seguintes passos:
 
 ```bash
 python -m venv venv
+
+source venv/bin/activate
 ```
 
-2. Instale o Flask:
+2. Instale os *requirements*:
 
 ```bash
-pip install flask==3.0.0
+pip install -r requirements.txt
 ```
 
 3. Rode o seguinte comando:

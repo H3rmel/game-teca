@@ -1,7 +1,7 @@
 {% extends "template.html" %} {% block content %}
-<form method="post" action="{{ url_for('create') }}" enctype="multipart/form-data">
+<form method="post" action="{{ url_for('update') }}" enctype="multipart/form-data">
   <figure class="img-thumbnail col-md-4">
-    <img class="img-fluid" src="{{ url_for('image', name_archive='default_cover.jpg') }}">
+    <img class="img-fluid" src="{{ url_for('image', name_archive=game_cover) }}">
     <figcaption>
       <label class="fileContainer">
         Mudar Capa
@@ -10,6 +10,7 @@
     </figcaption>
   </figure>
   <fieldset>
+    <input type="hidden" name="id" value="{{ id }}">
     {{ form.csrf_token() }}
     <div class="form-group">
       {{ form.name.label(class="form-label") }}

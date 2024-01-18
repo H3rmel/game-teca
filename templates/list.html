@@ -1,10 +1,12 @@
 {% extends "template.html" %} {% block content %}
+
 <table class="table table-striped table-responsive table-bordered mt-4">
   <thead class="thead-default">
     <tr>
       <th>Nome</th>
       <th>Categoria</th>
       <th>Plataforma</th>
+      <th>Opções</th>
     </tr>
   </thead>
   <tbody>
@@ -13,12 +15,20 @@
       <td>{{ game.name }}</td>
       <td>{{ game.category }}</td>
       <td>{{ game.platform }}</td>
+      <td>
+        <a class="btn btn-link p-0" href="{{ url_for('edit', id=game.id) }}">Editar</a>
+      </td>
+      <td>
+        <form method="post" action="{{ url_for('delete', id=game.id) }}">
+          <button type="submit" class="btn btn-link p-0">Remover</button>
+        </form>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 <div class="d-flex justify-content-between align-items-center">
-  <a href="{{ url_for('new_game') }}" class="btn btn-primary">
+  <a href="{{ url_for('new') }}" class="btn btn-primary">
     Adicionar jogo
   </a>
   <a href="{{ url_for('logout') }}" class="btn btn-outline-danger"> Sair </a>

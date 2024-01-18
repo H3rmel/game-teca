@@ -2,22 +2,22 @@
 <div class="container mt-4">
   <h1>Faça seu login</h1>
   <form method="POST" action="{{ url_for('auth') }}">
-    <input type="hidden" id="next_page" name="next_page" value="{{ next_page }}">
-    <p>
-      <label>Nome de usuário:</label>
-      <input class="form-control" type="text" id="user" name="user" required />
-    </p>
-    <p>
-      <label>Senha:</label>
-      <input
-        class="form-control"
-        type="password"
-        id="password"
-        name="password"
-        required
-      />
-    </p>
-    <p><button class="btn btn-primary" type="submit">Entrar</button></p>
+    <input
+      type="hidden"
+      id="next_page"
+      name="next_page"
+      value="{{ next_page or url_for('home') }}"
+    />
+    {{ form.csrf_token() }}
+    <div class="form-group">
+      {{ form.nickname.label(class="form-label") }} {{
+      form.nickname(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.password.label(class="form-label") }} {{
+      form.password(class="form-control") }}
+    </div>
+    <div class="form-group mt-2">{{ form.save(class="btn btn-primary") }}</div>
   </form>
 </div>
 {% endblock %}
