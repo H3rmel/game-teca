@@ -1,4 +1,4 @@
-# Game Teca 🎮
+# Game Teca 🎮 (Deprecated 🕸️)
 
 Projeto simples que realizei em Python e Flask para começar a aprender mais sobre desenvolvimento back-end com os mesmos.
 
